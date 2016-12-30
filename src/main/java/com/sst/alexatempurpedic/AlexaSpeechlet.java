@@ -1,18 +1,27 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2016 sjensen.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.sst.alexatempurpedic;
 
+import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.slu.Intent;
 import com.amazon.speech.speechlet.IntentRequest;
 import com.amazon.speech.speechlet.LaunchRequest;
-import com.amazon.speech.speechlet.Session;
 import com.amazon.speech.speechlet.SessionEndedRequest;
 import com.amazon.speech.speechlet.SessionStartedRequest;
-import com.amazon.speech.speechlet.Speechlet;
-import com.amazon.speech.speechlet.SpeechletException;
+import com.amazon.speech.speechlet.SpeechletV2;
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
@@ -29,20 +38,29 @@ import org.apache.log4j.Logger;
  *
  * @author sjensen
  */
-public class MySpeechlet implements Speechlet {
-    private static final Logger log = Logger.getLogger(MySpeechlet.class);
+public class AlexaSpeechlet implements SpeechletV2 {
+    private static final Logger log = Logger.getLogger(AlexaSpeechlet.class);
+    
+     @Override
+    public SpeechletResponse onLaunch(SpeechletRequestEnvelope<LaunchRequest> reqEnv) {
+        return( getWelcomeResponse() );
+    }
+ 
+    @Override
+    public void onSessionStarted(SpeechletRequestEnvelope<SessionStartedRequest> reqEnv) {
+        log.info("Session Started with ID " + reqEnv.getSession().getSessionId() );
+    }
     
     @Override
-    public void onSessionStarted(final SessionStartedRequest request, final Session session) throws SpeechletException {
-        log.info("onSessionStarted requestId={}, sessionId={}" + request.getRequestId() + session.getSessionId());
-        // any initialization logic goes here
+    public void onSessionEnded(SpeechletRequestEnvelope<SessionEndedRequest> reqEnv) {
+        log.info("Session Ended with ID " + reqEnv.getSession().getSessionId() );
     }
-
+    
     @Override
-    public SpeechletResponse onIntent(final IntentRequest request, final Session session)
-            throws SpeechletException {
+    public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> reqEnv) {
 
-        Intent intent = request.getIntent();
+        
+        Intent intent = reqEnv.getRequest().getIntent();
         String intentName = (intent != null) ? intent.getName() : null;
 
         if ("GotoPosition".equals(intentName)) {
@@ -57,9 +75,10 @@ public class MySpeechlet implements Speechlet {
             }
             return getOKResponse(position);
         } else if ("AMAZON.HelpIntent".equals(intentName)) {
+            
             return getHelpResponse();
         } else {
-            throw new SpeechletException("Invalid Intent");
+            return getHelpResponse();
         }
     }
 
@@ -97,19 +116,6 @@ public class MySpeechlet implements Speechlet {
         throw new RuntimeException ("Invalid hex char '" + c + "'");
     }
     
-    @Override
-    public SpeechletResponse onLaunch(final LaunchRequest request, final Session session)
-            throws SpeechletException {
-        log.info("onSessionStarted requestId={}, sessionId={}" + request.getRequestId() + session.getSessionId());
-        return getWelcomeResponse();
-    }
-    
-    @Override
-    public void onSessionEnded(final SessionEndedRequest request, final Session session)
-            throws SpeechletException {
-        log.info("onSessionStarted requestId={}, sessionId={}" + request.getRequestId() + session.getSessionId());
-        // any cleanup logic goes here
-    }
 
     /**
      * Creates and returns a {@code SpeechletResponse} with a welcome message.
@@ -189,4 +195,5 @@ public class MySpeechlet implements Speechlet {
     public static void main(String[] argc) {
         
     }
+
 }

@@ -5,7 +5,27 @@
     <artifactId>AlexaTempurpedic</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
-    <name>Tempurpedic Base Alexa Skill</name>
+    <name>Tempurpedic Base Alexa Skill</name> 
+    <description>Alexa Skill that sends commands to Tempurpedic Ergo Premier </description>
+    <url>https://github.com/docwho2/java-alexa-tempurpedic-skill</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Steve Jensen</name>
+            <email>docwho2@gmail.com</email>
+            <organizationUrl>https://github.com/docwho2/java-alexa-tempurpedic-skill</organizationUrl>
+        </developer>
+    </developers>
+    
+    
     <dependencies>
         <dependency>
             <groupId>com.amazonaws</groupId>

@@ -39,8 +39,8 @@ Check out the code into a working directory
 ```
 git clone https://github.com/docwho2/java-alexa-tempurpedic-skill.git 
 ```
-
+TODO...
 
 ### Servlet (Speechlet) Engine Scenario
 
-TODO
+TODO...
