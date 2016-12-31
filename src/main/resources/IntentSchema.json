@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "intent": "GotoPosition",
+      "slots": [
+        {
+          "name": "Position",
+          "type": "LIST_OF_POSITIONS"
+        }
+      ]
+    }
+  ]
+}

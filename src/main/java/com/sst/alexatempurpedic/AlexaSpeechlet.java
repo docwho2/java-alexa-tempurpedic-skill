@@ -58,7 +58,6 @@ public class AlexaSpeechlet implements SpeechletV2 {
     
     @Override
     public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> reqEnv) {
-
         
         Intent intent = reqEnv.getRequest().getIntent();
         String intentName = (intent != null) ? intent.getName() : null;
