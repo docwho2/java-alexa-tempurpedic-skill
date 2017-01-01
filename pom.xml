@@ -76,11 +76,11 @@
                         {
                         "functionName": "AlexaTempurpedicLambda",
                         "description": "Alexa Skill for Tempurpedic Bed",
-                        "handler": "com.sst.alexatempurpedic.AlexaTempurpedicLambda",
+                        "handler": "com.sst.alexatempurpedic.AlexaLambda",
                         "timeout": 60,
                         "memorySize": 320,
                         "triggers": [
-                             { "integration": "Alexa Skills Kit" }
+                        { "integration": "Alexa Skills Kit" }
                         ]
                         }
                         ]
@@ -115,6 +115,14 @@
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <finalName>${project.artifactId}-${project.version}</finalName>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>com.sst.alexatempurpedic.TempurpedicErgoPremier</Main-Class>
+                                        <Build-Number>${project.version}</Build-Number>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>

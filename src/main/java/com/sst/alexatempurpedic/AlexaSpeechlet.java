@@ -26,95 +26,65 @@ import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import org.apache.log4j.Logger;
 
 /**
  *
- * @author sjensen
+ * @author @author Steve Jensen <docwho2@gmail.com>
  */
 public class AlexaSpeechlet implements SpeechletV2 {
+
     private static final Logger log = Logger.getLogger(AlexaSpeechlet.class);
-    
-     @Override
+
+    @Override
     public SpeechletResponse onLaunch(SpeechletRequestEnvelope<LaunchRequest> reqEnv) {
-        return( getWelcomeResponse() );
+        return (getWelcomeResponse());
     }
- 
+
     @Override
     public void onSessionStarted(SpeechletRequestEnvelope<SessionStartedRequest> reqEnv) {
-        log.info("Session Started with ID " + reqEnv.getSession().getSessionId() );
+        log.info("Session Started with ID " + reqEnv.getSession().getSessionId());
     }
-    
+
     @Override
     public void onSessionEnded(SpeechletRequestEnvelope<SessionEndedRequest> reqEnv) {
-        log.info("Session Ended with ID " + reqEnv.getSession().getSessionId() );
+        log.info("Session Ended with ID " + reqEnv.getSession().getSessionId());
     }
-    
+
     @Override
     public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> reqEnv) {
-        
+
         Intent intent = reqEnv.getRequest().getIntent();
         String intentName = (intent != null) ? intent.getName() : null;
 
-        if ("GotoPosition".equals(intentName)) {
-            String position = intent.getSlot("Position").getValue();
-            log.debug("User askied for position [" + position + "]");
-            if ( "flat".equalsIgnoreCase(position) ) {
-                goBed("3305320A945C0400CC");
-            } else if ( "one".equalsIgnoreCase(position) || "1".equals(position)) {
-                goBed("33053203945C0000C8");
-            } else if ( "two".equalsIgnoreCase(position) || "2".equals(position)) {
-                goBed("33053203945C0100C9");
-            }
-            return getOKResponse(position);
-        } else if ("AMAZON.HelpIntent".equals(intentName)) {
-            
+        if (null == intentName) {
             return getHelpResponse();
-        } else {
-            return getHelpResponse();
+        } else switch (intentName) {
+            case "GotoPosition":
+                String position = intent.getSlot("Position").getValue();
+                log.debug("User askied for position [" + position + "]");
+                BedCommand cmd = BedCommand.getByPosition(position);
+                if (cmd == null) {
+                    // Error Response TODO: send back help response to indicate we didn't get the position)
+                    getHelpResponse();
+                } else {
+                    // Send the Command
+                    if (TempurpedicErgoPremier.sendCommand(cmd)) {
+                        // success
+                        return getOKResponse(cmd);
+                    } else {
+                        // failure TODO:  response with error message
+                        getHelpResponse();
+                    }
+                }   break;
+            case "AMAZON.HelpIntent":
+                return getHelpResponse();
+            default:
+                return getHelpResponse();
         }
+        // Never Hit
+        return(null);
     }
-
-    
-    private void goBed(String hex) {
-        try {
-            byte[] flatCmd = hexStringToByteArray(hex);
-            InetAddress bedIP = InetAddress.getByName("10.0.0.35");
-            DatagramSocket datagramSocket = new DatagramSocket();
-            DatagramPacket packet = new DatagramPacket(flatCmd, flatCmd.length, bedIP, 50007);
-            datagramSocket.send(packet);
-        } catch (UnknownHostException | SocketException ex) {
-            log.error("Error",ex);
-        } catch (IOException ex) {
-            log.error("Error",ex);
-        }
-    }
-    
-    public static byte[] hexStringToByteArray(String hexString)
-    {
-        int length = hexString.length();
-        byte[] buffer = new byte[length / 2];
-        for (int i = 0 ; i < length ; i += 2)
-        {
-            buffer[i / 2] = (byte)((toByte(hexString.charAt(i)) << 4) | toByte(hexString.charAt(i+1)));
-        }
-        
-        return buffer;
-    }  
-    private static int toByte(char c)
-    {
-        if (c >= '0' && c <= '9') return (c - '0');
-        if (c >= 'A' && c <= 'F') return (c - 'A' + 10);
-        if (c >= 'a' && c <= 'f') return (c - 'a' + 10);
-        throw new RuntimeException ("Invalid hex char '" + c + "'");
-    }
-    
 
     /**
      * Creates and returns a {@code SpeechletResponse} with a welcome message.
@@ -126,7 +96,7 @@ public class AlexaSpeechlet implements SpeechletV2 {
 
         // Create the Simple card content.
         SimpleCard card = new SimpleCard();
-        card.setTitle("Dude");
+        card.setTitle("Welcome");
         card.setContent(speechText);
 
         // Create the plain text output.
@@ -145,19 +115,12 @@ public class AlexaSpeechlet implements SpeechletV2 {
      *
      * @return SpeechletResponse spoken and visual response for the given intent
      */
-    private SpeechletResponse getOKResponse(String position ) {
-        String speechText = "The Bed has Executed your wish and will now go ";
+    private SpeechletResponse getOKResponse(BedCommand cmd) {
+        String speechText = "The Bed has Executed your wish and will now go to " + cmd.getReponse();
 
-        if ( "flat".equalsIgnoreCase(position) ) {
-            speechText += "flat";
-        } else if ( "1".equals(position) ) {
-            speechText += " to memory position 1";
-        } else if ( "2".equals(position) ) {
-            speechText += " to memory position 2";
-        }
         // Create the Simple card content.
         SimpleCard card = new SimpleCard();
-        card.setTitle("DudeSweet");
+        card.setTitle("Postion OK");
         card.setContent(speechText);
 
         // Create the plain text output.
@@ -177,7 +140,7 @@ public class AlexaSpeechlet implements SpeechletV2 {
 
         // Create the Simple card content.
         SimpleCard card = new SimpleCard();
-        card.setTitle("DudeSweet");
+        card.setTitle("Help");
         card.setContent(speechText);
 
         // Create the plain text output.
@@ -190,9 +153,4 @@ public class AlexaSpeechlet implements SpeechletV2 {
 
         return SpeechletResponse.newAskResponse(speech, reprompt, card);
     }
-    
-    public static void main(String[] argc) {
-        
-    }
-
 }
