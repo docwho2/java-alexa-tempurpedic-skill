@@ -30,15 +30,27 @@ public enum BedCommand {
     BED_FLAT("flat", "The Flat Position", "3305320A945C0400CC"),
 
     /**
-     * Memory Position #1
+     * Memory Position #1 - #4
      */
     BED_MEM_1("1", "Memory Position 1", "33053203945C0000C8"),
+    BED_MEM_2("2", "Memory Position 2", "33053203945C0100C9"),
+    BED_MEM_3("3", "Memory Position 3", "33053203945c0100CA"),
+    BED_MEM_4("4", "Memory Position 4", "33053203945c0100CB"),
 
+    
     /**
-     * Memory Position #2
+     * All Vibration Off
      */
-    BED_MEM_2("2", "Memory Position 2", "33053203945C0100C9");
-
+    BED_VIBE_OFF("off","Vibration Off", "3305320A9486000012"),
+    
+    
+    /**
+     * Vibration Setting #1 - #4
+     */
+    BED_VIBE_1("v1", "Vibration Setting 1", "33053203948D007861"),
+    BED_VIBE_2("v2", "Vibration Setting 2", "33053203948D007860"),
+    BED_VIBE_3("v3", "Vibration Setting 3", "33053203948D007863"),
+    BED_VIBE_4("v4", "Vibration Setting 4", "33053203948D007862");
     
     // The bed position in short form which is in LIST_OF_POSITIONS 
     private final String position;

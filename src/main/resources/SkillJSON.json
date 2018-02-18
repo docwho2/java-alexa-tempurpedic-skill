@@ -1,0 +1,109 @@
+{
+  "languageModel": {
+    "types": [
+      {
+        "name": "LIST_OF_POSITIONS",
+        "values": [
+          {
+            "id": null,
+            "name": {
+              "value": "1",
+              "synonyms": []
+            }
+          },
+          {
+            "id": null,
+            "name": {
+              "value": "2",
+              "synonyms": []
+            }
+          },
+          {
+            "id": null,
+            "name": {
+              "value": "3",
+              "synonyms": []
+            }
+          },
+          {
+            "id": null,
+            "name": {
+              "value": "4",
+              "synonyms": []
+            }
+          },
+          {
+            "id": null,
+            "name": {
+              "value": "flat",
+              "synonyms": [
+                "normal"
+              ]
+            }
+          },
+          {
+            "id": null,
+            "name": {
+              "value": "off",
+              "synonyms": [
+                "disabled"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "intents": [
+      {
+        "name": "AMAZON.CancelIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.HelpIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.StopIntent",
+        "samples": []
+      },
+      {
+        "name": "GotoPosition",
+        "samples": [
+          "position {Position}",
+          "memory slot {Position}",
+          "memory {Position}",
+          "memory position {Position}",
+          "go to position {Position}",
+          "go to memory slot {Position}",
+          "go to memory {Position}",
+          "go to memory position {Position}",
+          "move to position {Position}",
+          "move to memory slot {Position}",
+          "move to memory {Position}",
+          "move memory position {Position}"
+        ],
+        "slots": [
+          {
+            "name": "Position",
+            "type": "LIST_OF_POSITIONS"
+          }
+        ]
+      },
+      {
+        "name": "Vibration",
+        "samples": [
+          "vibration {Position}",
+          "go to vibration {Position}",
+          "set vibration to {Position}"
+        ],
+        "slots": [
+          {
+            "name": "Position",
+            "type": "LIST_OF_POSITIONS"
+          }
+        ]
+      }
+    ],
+    "invocationName": "steve bed"
+  }
+}

@@ -77,6 +77,24 @@ public class AlexaSpeechlet implements SpeechletV2 {
                         getHelpResponse();
                     }
                 }   break;
+            case "Vibration":
+                String vibration = intent.getSlot("Position").getValue();
+                log.debug("User askied for vibration [" + vibration + "]");
+                BedCommand vibe = vibration.equalsIgnoreCase("off") ? BedCommand.getByPosition(vibration) : BedCommand.getByPosition("v" + vibration);
+                if (vibe == null) {
+                    // Error Response TODO: send back help response to indicate we didn't get the position)
+                    getHelpResponse();
+                } else {
+                    // Send the Command
+                    if (TempurpedicErgoPremier.sendCommand(vibe)) {
+                        // success
+                        return getOKResponse(vibe);
+                    } else {
+                        // failure TODO:  response with error message
+                        getHelpResponse();
+                    }
+                }
+                break;
             case "AMAZON.HelpIntent":
                 return getHelpResponse();
             default:
