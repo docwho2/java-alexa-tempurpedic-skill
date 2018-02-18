@@ -35,7 +35,7 @@
         <dependency>
             <groupId>com.amazon.alexa</groupId>
             <artifactId>alexa-skills-kit</artifactId>
-            <version>1.2</version>
+            <version>1.8.1</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
@@ -59,7 +59,7 @@
             <plugin>
                 <groupId>com.github.seanroy</groupId>
                 <artifactId>lambda-maven-plugin</artifactId>
-                <version>2.1.4</version>
+                <version>2.3.2</version>
                 <configuration>
                     <region>us-east-1</region>
                     <functionCode>${lambda.functionCode}</functionCode>

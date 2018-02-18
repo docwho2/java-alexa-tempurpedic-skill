@@ -31,6 +31,7 @@ public class AlexaLambda extends SpeechletRequestStreamHandler {
          * Alexa Skill and put the relevant Application Ids in this Set.
          */
         supportedApplicationIds.add("amzn1.ask.skill.e8913c1c-5cb5-4774-8bff-e567eba4c65f");
+        supportedApplicationIds.add("amzn1.ask.skill.defc25a4-e31e-4dc5-ad74-f8ea0636bb05");
     }
     
     public AlexaLambda() {
