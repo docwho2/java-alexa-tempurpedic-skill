@@ -29,6 +29,10 @@ option if you have some kind of server running locally in your house.  Using thi
 servlet engine on the outside IP address of your home router and have a static mapping rule to support this.
 
 
+## Demo
+
+[![Demo Video](http://img.youtube.com/vi/f-ttXBwpRAQ/0.jpg)](https://youtu.be/f-ttXBwpRAQ "Demo Video")
+
 ## Installation
 
 Having never done the servlet deployment model for Alexa, I won't have much detail in the steps, just an overview of what needs to be done for that model.
