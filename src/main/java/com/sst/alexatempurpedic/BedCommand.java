@@ -48,9 +48,9 @@ public enum BedCommand {
      * Vibration Setting #1 - #4
      */
     BED_VIBE_1("v1", "Vibration Setting 1", "33053203948D007861"),
-    BED_VIBE_2("v2", "Vibration Setting 2", "33053203948D007860"),
-    BED_VIBE_3("v3", "Vibration Setting 3", "33053203948D007863"),
-    BED_VIBE_4("v4", "Vibration Setting 4", "33053203948D007862");
+    BED_VIBE_2("v2", "Vibration Setting 2", "33053203948D017860"),
+    BED_VIBE_3("v3", "Vibration Setting 3", "33053203948D027863"),
+    BED_VIBE_4("v4", "Vibration Setting 4", "33053203948D037862");
     
     // The bed position in short form which is in LIST_OF_POSITIONS 
     private final String position;
